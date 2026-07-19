@@ -275,14 +275,10 @@ public class TestScript {
     }
 
     public void run(String rawCode) {
-        System.out.println(rawCode);
         run(rawCode.split("\\r?\\n"));
     }
 
     private String[] parseLine(String line) {
-
-        //return line.split(" ");
-
         List<String> list=new ArrayList<>();
 
         String temp="";
