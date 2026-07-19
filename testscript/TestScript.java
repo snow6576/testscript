@@ -275,6 +275,7 @@ public class TestScript {
     }
 
     public void run(String rawCode) {
+        System.out.println(rawCode);
         run(rawCode.split("\\r?\\n"));
     }
 

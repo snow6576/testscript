@@ -25,7 +25,7 @@ public class Main {
 
              while (true){
                  System.out.print(">>");
-                 testScript.run(scanner.next());
+                 testScript.run(scanner.nextLine());
              }
          }
     }
