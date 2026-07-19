@@ -31,14 +31,13 @@ public class TestScript {
                         object = tes invokeMethod arg get object
                         key = tes invokeMethod arg get key
 
-                        
-
-                        
                         arg = tes invokeMethod object get key
                         arg = tes javaToTes arg
                         
 
                         """));
+
+
     }
 
     private TeSJaApi.Arg strToObject(String string) {
@@ -280,7 +279,96 @@ public class TestScript {
     }
 
     private String[] parseLine(String line) {
-        return line.split(" ");
+
+        //return line.split(" ");
+
+        List<String> list=new ArrayList<>();
+
+        String temp="";
+        boolean str_mark=false;
+        for (int n=0;n<line.length();n++){
+            char c=line.charAt(n);
+
+            if (str_mark){
+
+                if (c=='"'){
+                    str_mark=false;
+
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    temp="";
+                }
+                else
+                    temp+=c;
+            }else
+                switch (c){
+
+                case '"':
+                    str_mark=true;
+                    break;
+
+                case '+':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add("+");
+                    temp="";
+                    break;
+
+                case '-':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add("-");
+                    temp="";
+                    break;
+
+                case '/':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add("/");
+                    temp="";
+                    break;
+
+                case '*':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add("*");
+                    temp="";
+                    break;
+
+                case '=':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add("=");
+                    temp="";
+                    break;
+
+                case ')':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add(")");
+                    temp="";
+                    break;
+
+                case '(':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add("(");
+                    temp="";
+                    break;
+
+                case ' ':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    temp="";
+                    break;
+                default:
+                    temp+=c;
+            }
+
+        }
+
+        list.add(temp);
+        return list.toArray(new String[list.size()]);
     }
 
     private void line(String[] line, String line_ori) {
@@ -464,6 +552,10 @@ public class TestScript {
 
     private Value calculate(String[] simple_formula) {
 
+        if (simple_formula.length != 0 && simple_formula[0].equals("\"")){
+            return new Value(TYPE.TES_OBJECT, simple_formula[1]);
+        }
+
         BigDecimal value = new BigDecimal(0);
 
         String symbol_flag = "+";
@@ -478,7 +570,6 @@ public class TestScript {
                     value = __calcu(value, new BigDecimal(string), symbol_flag);
 
                 } else
-
                 if (variable.containsKey(string)) {
                     Value va = variable.get(string);
 

@@ -1,80 +1,32 @@
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
-
      public static void main(String[] args) {
-        
-        TestScript tes=new TestScript();
-    
-        tes.run("""
+         TestScript testScript=new TestScript();
 
-            fun3 = func
+         if (args.length == 1 && new File(args[0]).exists()){
+             try {
+                 List<String> list=Files.readAllLines(Path.of(args[0]));
+                 testScript.run(list.toArray(new String[list.size()]));
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+         }else {
+             Scanner scanner = new Scanner(System.in);
 
-            arg = 3
-
-            println ( arg )
-
-            endfunc
-
-            fun2 = func
-
-            arg = 2
-
-            fun3 ( )
-
-            println ( arg )
-
-            endfunc
-
-
-            fun = func
-
-            arg = 1
-
-            fun2 ( )
-
-            println ( - )
-
-            println ( arg )
-
-            endfunc
-
-
-
-            println ( 1 )
-
-            fun ( )
-
-                """);
-
-        if(true)return;
-
-        tes.run("""
-
-
-            fun = func
-
-            key = tes newTes object arg key a
-
-            res = getTesValue ( key )
-
-            println ( res )
-
-            endfunc
-
-
-            obj = tes newTes a 0 b 1
-
-
-            fun ( obj )
-
-
-                """);  
-
-
+             while (true){
+                 testScript.run(scanner.next());
+             }
+         }
     }
 
 }
