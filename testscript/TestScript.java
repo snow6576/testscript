@@ -1,6 +1,11 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -254,9 +259,23 @@ public class TestScript {
                                 new BigDecimal((String) calculate(new String[] { fun_args[1] }).object)) == -1 ? 1
                                         : 0));
             }
-        }
+            case "load" ->{
 
-        return null;
+                List<String> list;
+                try {
+                    list = Files.readAllLines(Path.of(fun_args[0]));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                run(list.toArray(new String[list.size()]));
+
+
+                return null;
+            }
+            default -> {
+                return null;
+            }
+        }
 
     }
 
