@@ -312,6 +312,7 @@ public class TestScript {
 
                     if (!temp.isEmpty())
                         list.add(temp);
+                    list.add("\"");
                     temp="";
                 }
                 else
@@ -321,6 +322,7 @@ public class TestScript {
 
                 case '"':
                     str_mark=true;
+                    list.add("\"");
                     break;
 
                 case '+':
