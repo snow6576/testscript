@@ -42,7 +42,6 @@ public class TestScript {
 
                         """));
 
-
     }
 
     private TeSJaApi.Arg strToObject(String string) {
@@ -324,6 +323,12 @@ public class TestScript {
                     str_mark=true;
                     list.add("\"");
                     break;
+                case ',':
+                    if (!temp.isEmpty())
+                        list.add(temp);
+                    list.add(",");
+                    temp="";
+                    break;
 
                 case '+':
                     if (!temp.isEmpty())
@@ -437,6 +442,35 @@ public class TestScript {
 
     }
 
+    /*public Value evaluation(String[] formula) {
+        System.out.print(Arrays.toString(formula));
+        List<Integer> list=new ArrayList<>();
+        list.add(-1);
+        for (int n=0;n<formula.length;n++){
+            if (formula[n].equals(",")){
+                list.add(n);
+            }
+        }
+        list.add(formula.length);
+
+        if (list.size()==2){
+            return evaluation2(formula);
+        }
+
+        List result=new ArrayList();
+        for (int n=0;n<list.size()-1;n++){
+            String[] arr=new String[list.get(n+1)-list.get(n)-1];
+            int first=list.get(n)+1;
+            for (int n2=0;n2<arr.length;n2++){
+                arr[n2]=formula[first];
+                first++;
+            }
+            result.add(evaluation2(arr).object);
+        }
+
+        return new Value(TYPE.JAVA_OBJECT,result);
+    }*/
+
     public Value evaluation(String[] formula) {
 
         if (formula[0].equals("\"")) {
@@ -445,8 +479,7 @@ public class TestScript {
 
         }
 
-        String result = calculateFormula(formula)[0];
-        return new Value(TYPE.TES_OBJECT, result);
+        return calculate(calculateFormula(formula));
     }
 
     public String[] calculateFormula(String[] formula) {
@@ -491,10 +524,8 @@ public class TestScript {
                     }
 
                 } else {
-
                     if (isMaxBefore) {
                         int endAt = n;
-
                         Value result_String = calculate(Arrays.copyOfRange(formula, startAt + 1, endAt));
 
                         if (startAt - 1 >= 0) {
@@ -564,15 +595,39 @@ public class TestScript {
             return new_result;
         }
 
-        return new String[] { (String) calculate(formula).object };
+        return formula;
 
     }
 
-    private Value calculate(String[] simple_formula) {
-
-        if (simple_formula.length != 0 && simple_formula[0].equals("\"")){
-            return new Value(TYPE.TES_OBJECT, simple_formula[1]);
+    private Value calculate(String[] formula){
+        List<Integer> list=new ArrayList<>();
+        list.add(-1);
+        for (int n=0;n<formula.length;n++){
+            if (formula[n].equals(",")){
+                list.add(n);
+            }
         }
+        list.add(formula.length);
+
+        if (list.size()==2){
+            return calculate2(formula);
+        }
+
+        List result=new ArrayList();
+        for (int n=0;n<list.size()-1;n++){
+            String[] arr=new String[list.get(n+1)-list.get(n)-1];
+            int first=list.get(n)+1;
+            for (int n2=0;n2<arr.length;n2++){
+                arr[n2]=formula[first];
+                first++;
+            }
+            result.add(calculate2(arr).object);
+        }
+
+        return new Value(TYPE.JAVA_OBJECT,result);
+    }
+
+    private Value calculate2(String[] simple_formula) {
 
         BigDecimal value = new BigDecimal(0);
 
