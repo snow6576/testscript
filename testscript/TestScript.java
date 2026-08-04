@@ -6,13 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class TestScript {
@@ -240,10 +234,8 @@ public class TestScript {
             }
             case "equal" -> {
                 return new Value(TYPE.TES_OBJECT,
-                        String.valueOf(new BigDecimal((String) calculate(new String[] { fun_args[0] }).object)
-                                .compareTo(new BigDecimal((String) calculate(new String[] { fun_args[1] }).object)) == 0
-                                        ? 1
-                                        : 0));
+                        String.valueOf(calculate(new String[] { fun_args[0] }).object.equals(calculate(new String[] { fun_args[1] }).object)
+                                        ? 1 : 0));
             }
             case "bigger" -> {
                 return new Value(TYPE.TES_OBJECT,
