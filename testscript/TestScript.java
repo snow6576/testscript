@@ -652,6 +652,9 @@ public class TestScript {
                         case JAVA_OBJECT:
                             return va;
 
+                        case FUNCTION:
+                            return va;
+
                         default:
 
                     }
