@@ -1,0 +1,57 @@
+get=func
+obj=tes invokeMethod arg get 0
+index=tes invokeMethod arg get 1
+index=tes javaToTes index
+
+arg=tes invokeMethod obj get index
+arg=tes javaToTes arg
+endfunc
+
+boolToInt=func
+arg=tes equal arg true
+endfunc
+
+__forif1=func
+res=true
+endfunc
+
+intToBool=func
+res=false
+tes if arg __forif1
+arg=res
+endfunc
+
+if=func
+flag=get(arg,0)
+ffff=get(arg,1)
+tes if flag ffff
+endfunc
+
+while=func
+flag=get(arg,0)
+ffff=get(arg,1)
+tes while flag ffff
+endfunc
+
+javaToTes=func
+arg=tes javaToTes arg
+endfunc
+
+equal=func
+__a=get(arg,0)
+__b=get(arg,1)
+arg=tes equal __a __b
+endfunc
+
+bigger=func
+__a=get(arg,0)
+__b=get(arg,1)
+arg=tes bigger __a __b
+endfunc
+
+less=func
+__a=get(arg,0)
+__b=get(arg,1)
+arg=tes less __a __b
+endfunc
+
