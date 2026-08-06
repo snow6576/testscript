@@ -66,6 +66,31 @@ public class TestScript {
                         break;
 
                     case JAVA_OBJECT:
+
+                    if(value.object instanceof Boolean bool){
+                        objects[i] = new TeSJaApi.Arg(bool.booleanValue());
+                    }else
+                    if(value.object instanceof Integer integer){
+                        objects[i] = new TeSJaApi.Arg(integer.intValue());
+                    }else                        
+                    if(value.object instanceof Character character){
+                        objects[i] = new TeSJaApi.Arg(character.charValue());
+                    }else
+                    if(value.object instanceof Byte byte1){
+                        objects[i] = new TeSJaApi.Arg(byte1.byteValue());
+                    }else   
+                    if(value.object instanceof Short short1){
+                        objects[i] = new TeSJaApi.Arg(short1.shortValue());
+                    }else                           
+                    if(value.object instanceof Float float1){
+                        objects[i] = new TeSJaApi.Arg(float1.floatValue());
+                    }else                           
+                    if(value.object instanceof Long long1){
+                        objects[i] = new TeSJaApi.Arg(long1.longValue());
+                    }else   
+                    if(value.object instanceof Double double1){
+                        objects[i] = new TeSJaApi.Arg(double1.doubleValue());
+                    }else   
                         objects[i] = new TeSJaApi.Arg(value.object);
                         break;
 
@@ -464,6 +489,13 @@ public class TestScript {
     }*/
 
     public Value evaluation(String[] formula) {
+
+        if (formula[0].equals("\"")) {
+
+            //return new Value(TYPE.TES_OBJECT, formula[1]);
+
+        }
+
         return calculate(calculateFormula(formula));
     }
 
@@ -614,10 +646,10 @@ public class TestScript {
 
     private Value calculate2(String[] simple_formula) {
 
-        if (simple_formula.length != 0 &&simple_formula[0].equals("\"")) {
+        if(simple_formula.length!=0 && simple_formula[0].equals("\"")){
             return new Value(TYPE.TES_OBJECT, simple_formula[1]);
         }
-        
+
         BigDecimal value = new BigDecimal(0);
 
         String symbol_flag = "+";
