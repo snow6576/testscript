@@ -464,13 +464,6 @@ public class TestScript {
     }*/
 
     public Value evaluation(String[] formula) {
-
-        if (formula[0].equals("\"")) {
-
-            return new Value(TYPE.TES_OBJECT, formula[1]);
-
-        }
-
         return calculate(calculateFormula(formula));
     }
 
@@ -621,6 +614,10 @@ public class TestScript {
 
     private Value calculate2(String[] simple_formula) {
 
+        if (simple_formula[0].equals("\"")) {
+            return new Value(TYPE.TES_OBJECT, simple_formula[1]);
+        }
+        
         BigDecimal value = new BigDecimal(0);
 
         String symbol_flag = "+";
