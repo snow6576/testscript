@@ -81,9 +81,29 @@ class TeSJaApi {
             NoSuchMethodException, SecurityException, ClassNotFoundException {
         Class<?>[] classes = argsToClasses(args);
 
-        Constructor<?> constructor = Class.forName(name).getConstructor(classes);
+        try{
+            Constructor<?> constructor = Class.forName(name).getConstructor(classes);
+            return constructor.newInstance(Arg.toObjects(args));
+        }catch(NoSuchMethodException e){
+            for (Constructor<?> constructor : Class.forName(name).getConstructors()) {
+                if (constructor.getParameterTypes().length == classes.length) {
+                    boolean flag=true;
+                    for (int n = 0; n < classes.length; n++) {
+                        if (!constructor.getParameterTypes()[n].isAssignableFrom(classes[n])) {
+                            flag=false;
+                            break;
+                        }
+                    }
 
-        return constructor.newInstance(Arg.toObjects(args));
+                    
+
+                    if(flag){
+                        return constructor.newInstance(Arg.toObjects(args));
+                    }
+                }
+            }
+            throw new NoSuchMethodError("newjavaObject "+name+" "+args[0].object);
+        }
     }
 
     public static Object getJavaField(Object obj, String fieldName)
