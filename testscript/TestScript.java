@@ -614,7 +614,7 @@ public class TestScript {
 
     private Value calculate2(String[] simple_formula) {
 
-        if (simple_formula[0].equals("\"")) {
+        if (simple_formula.length != 0 &&simple_formula[0].equals("\"")) {
             return new Value(TYPE.TES_OBJECT, simple_formula[1]);
         }
         
